@@ -108,6 +108,9 @@ http {
 		}
 		{{ end }}
 		{{ else }}
+		{{ if $proxy.redirect}}
+			rewrite ^(.*) {{$proxy.redirect}}$1 permanent;
+		{{ else }}
 		location / {
 
 			proxy_set_header X-Real-IP $remote_addr;
@@ -129,6 +132,7 @@ http {
 
 			proxy_pass http://{{$data.portalIP}}:{{$data.port}};
 		}
+		{{ end }}
 		{{ end }}
 
 	}
