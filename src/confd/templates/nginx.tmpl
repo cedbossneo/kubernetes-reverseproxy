@@ -55,10 +55,24 @@ http {
 
 	include /etc/nginx/conf.d/*.conf;
 
+	# Default server
+  server {
+			listen 80;
+    	return 404;
+  }
+	server {
+			listen 443;
+    	return 404;
+  }
+	server {
+			listen 8080;
+    	return 404;
+  }
+
 	{{range $spec := getvs "/registry/services/specs/*/*"}}
 	{{$data := json $spec}}
-	{{ if $data.annotations.kubernetesReverseproxy }}
-	{{$p := json $data.annotations.kubernetesReverseproxy }}
+	{{ if $data.metadata.annotations.kubernetesReverseproxy }}
+	{{$p := json $data.metadata.annotations.kubernetesReverseproxy }}
 	{{range $proxy := $p.hosts}}
 	{{if $proxy.host }}
 	server {
@@ -98,7 +112,9 @@ http {
 			proxy_set_header Connection "upgrade";
 			{{ end }}
 
-			proxy_pass http://{{$data.portalIP}}:{{$data.port}};
+                        {{range $port := $data.spec.ports}}
+                        proxy_pass http://{{$data.spec.portalIP}}:{{$port.port}};
+                        {{end}}
 		}
 		{{ end }}
 
@@ -130,7 +146,9 @@ http {
 			proxy_set_header Connection "upgrade";
 			{{ end }}
 
-			proxy_pass http://{{$data.portalIP}}:{{$data.port}};
+			{{range $port := $data.spec.ports}}
+			proxy_pass http://{{$data.spec.portalIP}}:{{$port.port}};
+			{{end}}
 		}
 		{{ end }}
 		{{ end }}
