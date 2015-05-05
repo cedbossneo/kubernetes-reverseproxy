@@ -55,6 +55,14 @@ http {
 
 	include /etc/nginx/conf.d/*.conf;
 
+	server {
+		server_name localhost;
+		location /nginx_status {
+		  stub_status on;
+		  access_log   off;
+		}
+  }
+
 	# Default server
   server {
 			listen 80;
