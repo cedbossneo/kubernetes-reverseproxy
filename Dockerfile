@@ -15,9 +15,8 @@ RUN chmod u+x /usr/local/bin/confd && \
 	mkdir -p /etc/confd/conf.d && \
 	mkdir -p /etc/confd/templates
 
-ADD ./src/confd/conf.d/myconfig.toml /etc/confd/conf.d/myconfig.toml
-ADD ./src/confd/templates/nginx.tmpl /etc/confd/templates/nginx.tmpl
-ADD ./src/confd/confd.toml /etc/confd/confd.toml
+ADD ./src/confd /etc/confd
+ADD ./src/nginx /etc/nginx
 
 # Install Nginx.
 RUN add-apt-repository -y ppa:nginx/stable && \
