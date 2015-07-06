@@ -55,7 +55,7 @@ A full configuration can looks like :
 		{"host": "sub2.example.com", "port": 443, "ssl": 1, "sslCrt": "cert.crt", "sslKey": "key.key", "path": ["/test3"], "defaultPath": "test3"},
 		{"host": "sub3.example.com", "port": 80, "webSocket": 1},
 	]
-}	
+}
 ```
 Then it must be converted to string and set into the kubernetesReverseproxy parameter in the annotation section of your service:
 
@@ -102,7 +102,7 @@ Example kubernetes service:
 {
   "id": "wordpress-site",
   "kind": "Service",
-  "apiVersion": "v1beta1",
+  "apiVersion": "v1",
   "port": 80,
   "containerPort": 80,
   "selector": {
